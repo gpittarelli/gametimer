@@ -12,6 +12,9 @@
 (defn navigate! [token]
   (.setToken history token))
 
+(defn back! []
+  (js/window.history.go -1))
+
 (defn get-token []
   (.getToken history))
 

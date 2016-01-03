@@ -2,18 +2,22 @@
   (:require [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]
-            [gametimer.history :refer [navigate!]]))
+            [gametimer.history :refer [navigate! back!]]))
 
-(defn- page-template [title & contents]
+(defn- page-template
+  [{:keys [title back?] :or {title "" back? true}}
+   & contents]
   (dom/div
-    (dom/h1 "Game Timer")
-    contents
-    ))
+    (dom/header
+      (when back?
+        (dom/button {:on-click back! :class "back"} "Back"))
+      (dom/h1 title))
+    contents))
 
 (defcomponent start-page [data owner]
   (render [_]
     (page-template
-     "Game Timer"
+     {:title "Game Timer" :back? false}
 
      (dom/button
       {:on-click #(navigate! "group/create")}
@@ -25,7 +29,7 @@
 (defcomponent group-create [data owner]
   (render [_]
     (page-template
-     "Group Create"
+     {:title "Group Create"}
 
      (dom/label {:for "name"} "Your Name")
      (dom/input {:name "name" :type "text"})
@@ -38,7 +42,7 @@
 (defcomponent group-join [data owner]
   (render [_]
     (page-template
-     "Group Join"
+     {:title "Group Join"}
 
      (dom/label {:for "name"} "Your Name")
      (dom/input {:name "name" :type "text"})
@@ -50,4 +54,4 @@
 
 (defcomponent group [data owner]
   (render [_]
-    (page-template "Group")))
+    (page-template {:title "Group"})))
