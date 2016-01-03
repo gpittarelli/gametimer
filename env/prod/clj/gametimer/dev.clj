@@ -8,8 +8,7 @@
 
 (def is-dev? false)
 (def inject-devmode-html identity)
-(defn browser-repl []
-  (throw (Exception. "Browser connected REPL is not available in prod mode")))
+
 (defn start-figwheel []
   (throw (Exception. "Figwheel is not available in prod mode")))
 

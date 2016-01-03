@@ -1,8 +1,8 @@
 (ns gametimer.server
   (:require [clojure.java.io :as io]
             [gametimer.dev :refer [is-dev? inject-devmode-html
-                               browser-repl start-figwheel start-less]]
-            [compojure.core :refer [GET defroutes]]
+                                   start-figwheel start-less]]
+            [compojure.core :refer [GET defroutes context]]
             [compojure.route :refer [resources]]
             [net.cgrand.enlive-html :refer [deftemplate]]
             [net.cgrand.reload :refer [auto-reload]]

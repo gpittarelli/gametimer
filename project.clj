@@ -57,8 +57,7 @@
                         [clojurescript-build "0.1.9"]
                         [figwheel-sidecar "0.5.0-2"]
                         [com.cemerick/piggieback "0.2.1"]
-                         ^:replace [org.clojure/tools.nrepl "0.2.12"]
-                        [weasel "0.7.0"]]
+                         ^:replace [org.clojure/tools.nrepl "0.2.12"]]
 
          :repl-options {:init-ns gametimer.server
                         :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
