@@ -11,7 +11,9 @@
             [ring.middleware.browser-caching :refer [wrap-browser-caching]]
             [ring.middleware.gzip :refer [wrap-gzip]]
             [environ.core :refer [env]]
-            [org.httpkit.server :refer [run-server]])
+            [org.httpkit.server :refer [run-server]]
+            [gametimer.util :refer [ignore-trailing-slash]]
+            [gametimer.groups :as groups])
   (:gen-class))
 
 (deftemplate page (io/resource "index.html") []
@@ -20,6 +22,8 @@
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
+  (context "/api" []
+    (context "/groups" [] groups/routes))
   (GET "/*" req (page)))
 
 (defn- wrap-browser-caching-opts [handler]
@@ -28,14 +32,15 @@
 (def http-handler
   (cond-> routes
     true (wrap-defaults api-defaults)
-    is-dev? reload/wrap-reload
+;;    true ignore-trailing-slash
+;;    is-dev? reload/wrap-reload
     true wrap-browser-caching-opts
     true wrap-gzip))
 
 (defn run-web-server [& [port]]
   (let [port (Integer. (or port (env :port) 10555))]
     (println (format "Starting web server on port %d." port))
-    (run-server #'http-handler {:port port :join? false})))
+    (run-server http-handler {:port port :join? false})))
 
 (defn run-auto-reload [& [port]]
   (auto-reload *ns*)

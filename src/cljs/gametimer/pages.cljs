@@ -1,8 +1,37 @@
 (ns gametimer.pages
-  (:require [om.core :as om :include-macros true]
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+  (:require [cljs.core.async :refer [<! chan]]
+            [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]
-            [gametimer.history :refer [navigate! back!]]))
+            [gametimer.history :refer [navigate! back!]]
+            [taoensso.sente :as sente :refer [cb-success?]]))
+
+(defonce groups-chan (chan))
+
+(let [{:keys [chsk ch-recv send-fn state]}
+      (sente/make-channel-socket! "/api/groups/channel-socket"
+                                  {:type :auto
+                                   :wrap-recv-evs? false})]
+  (go-loop []
+    (let [{:keys [id ?data]} (<! ch-recv)]
+      (case id
+        :chsk/state
+        (om/update! data :state ?data)
+
+        :scrim.chat/message
+        (om/transact! data :log #(conj % ?data))
+
+        :scrim.chat/players
+        (om/transact! data :players #(conj % ?data))
+
+        (println "Unhandled message type" id ?data)))
+    (recur))
+
+  (go-loop [i 0]
+    (<! (async/timeout 5000))
+    (send-fn [:scrim.chat/message {:message (str "hi " i)}])
+    (recur (inc i))))
 
 (defn- page-template
   [{:keys [title back?] :or {title "" back? true}}
