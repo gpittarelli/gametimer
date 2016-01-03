@@ -1,21 +1,18 @@
 (ns gametimer.core
-  (:require [om.core :as om :include-macros true]
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+  (:require [cljs.core.async :refer [<!]]
+            [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]
-            [goog.events :as events]
-            [goog.history.EventType :as EventType])
-  (:import goog.History))
+            [gametimer.history
+             :as history
+             :refer [make-history-chan navigate!]]))
 
 (enable-console-print!)
 
 (defonce app-state
-  (atom {:url ""
+  (atom {:url (history/get-token)
          :text "Hello Chestnut!"}))
-
-(defonce history (History.))
-
-(defn navigate! [fragment]
-  (.setToken history fragment))
 
 (defcomponent app [data owner]
   (render [_]
@@ -33,8 +30,9 @@
     app-state
     {:target (. js/document (getElementById "app"))})
 
-  (let [cursor (om/root-cursor app-state)]
-    (doto history
-      (events/listen EventType/NAVIGATE
-                     #(do (om/update! cursor :url (.-token %))))
-      (.setEnabled true))))
+  (let [app-cursor (om/root-cursor app-state)
+        history-chan (make-history-chan)]
+    (go-loop []
+      (let [history-event (<! history-chan)]
+        (om/update! app-cursor :url %))
+      (recur))))
