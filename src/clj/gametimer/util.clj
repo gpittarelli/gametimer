@@ -13,3 +13,10 @@
      (assoc request :uri (cond (= "/" uri) uri
                                (.endsWith uri "/") (apply str (butlast uri))
                                :else uri)))))
+
+(defn wrap-logging [handler]
+  (fn [req]
+    (println "Request: " req)
+    (let [res (handler req)]
+      (println "Response: " res)
+      res)))

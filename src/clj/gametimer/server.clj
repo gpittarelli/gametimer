@@ -14,7 +14,7 @@
                                              wrap-transit-params]]
             [environ.core :refer [env]]
             [org.httpkit.server :refer [run-server]]
-            [gametimer.util :refer [ignore-trailing-slash]]
+            [gametimer.util :refer [wrap-logging ignore-trailing-slash]]
             [gametimer.groups :as groups])
   (:gen-class))
 
@@ -32,17 +32,9 @@
 (defn- wrap-browser-caching-opts [handler]
   (wrap-browser-caching handler (or (env :browser-caching) {})))
 
-(defn- wrap-debug [handler]
-  (fn [req]
-    (println "Request: " req)
-    (let [res (handler req)]
-      (println "Response: " res)
-      res)))
-
-
 (def http-handler
   (cond-> routes
-    is-dev? wrap-debug
+    is-dev? wrap-logging
     true (wrap-transit-params {:opts {}})
     true (wrap-transit-response {:encoding :json, :opts {}})
     true (wrap-defaults api-defaults)
