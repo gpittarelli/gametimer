@@ -5,7 +5,8 @@
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]
             [gametimer.history :as history :refer [make-history-chan]]
-            [gametimer.pages :as pages]))
+            [gametimer.pages :as pages]
+            [gametimer.util :refer [by-id set-display-name]]))
 
 (enable-console-print!)
 
@@ -17,15 +18,14 @@
     (let [page (case (:url data)
                  "group/create" pages/group-create
                  "group/join" pages/group-join
-                 "group/game" pages/group
+                 "group" pages/group
                  pages/start-page)]
       (om/build page data))))
 
 (defn main []
-  (om/root
-    app
-    app-state
-    {:target (. js/document (getElementById "app"))})
+  (om/root app app-state
+           {:target (by-id "app")
+            :instrument set-display-name})
 
   (let [app-cursor (om/root-cursor app-state)
         history-chan (make-history-chan)]

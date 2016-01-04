@@ -24,10 +24,11 @@
                  [org.omcljs/om "1.0.0-alpha28"]
                  [environ "1.0.1"]
                  [prismatic/om-tools "0.3.11"]
-                 [cljs-ajax "0.5.2"]
                  [ring-transit "0.1.4"]
                  [http-kit "2.1.18"]
-                 [com.taoensso/sente "1.7.0"]]
+                 [com.taoensso/sente "1.7.0"]
+                 [ring-transit "0.1.4"]
+                 [cljs-http "0.1.39"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-environ "1.0.1"]
