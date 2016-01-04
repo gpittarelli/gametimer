@@ -1,0 +1,14 @@
+.user-select(@x) {
+  -webkit-touch-callout: @x;
+  -webkit-user-select: @x;
+  -khtml-user-select: @x;
+  -moz-user-select: @x;
+  -ms-user-select: @x;
+  user-select: @x;
+}
+
+.hide-text() {
+  text-indent: -9999px;
+  white-space: nowrap;
+  .user-select(none);
+}

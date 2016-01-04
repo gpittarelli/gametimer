@@ -1,9 +1,67 @@
 @import "reset.less";
+@import "colors.less";
+@import "util.less";
 
 body {
-  background-color: #ddd;
+  background-color: @base-color;
 }
 
-h1 {
-  text-decoration: underline;
+html {
+  font-family: Roboto, Noto, sans-serif;
+}
+
+header {
+  background-color: @accent-color;
+  color: @base-color;
+  font-size: 3em;
+  text-align: center;
+
+  padding: 0.333em 0;
+  width: 100%;
+
+  /* very light shadow just below */
+  box-shadow: 0px -12px 15px 10px black;
+  margin-bottom: 10px;
+
+  button.back {
+    /* This button is styled to look like a < arrow */
+    .hide-text();
+    .reset();
+
+    /* Turn the main button element into just a positional anchor for the
+     * pos: absolute :after psuedo-element. Compared to turning the button
+     * itself into the arrow, doing this makes the button take up 0-width in
+     * the header so the title is always centered. */
+    float: left;
+    position: relative;
+    width: 0;
+    height: 0;
+
+    &:after {
+      content: "";
+      display: block;
+
+      /* Blend into the header */
+      border-color: @base-color;
+      background-color: transparent;
+
+      /* The arrow shape comes from rotating the bottom/left borders */
+      border-width: 0 0 5px 5px;
+      border-style: solid;
+      border-radius: 1px;
+      transform: rotateZ(45deg);
+
+      @side-len: 0.4em;
+      width: @side-len;
+      height: @side-len;
+
+      position: relative;
+      /* We're in an :after block (since :before mucks with how we hide the
+       * text), but :after is positioned a line down, so we move back up,
+       * then we want to move back down a little more in order to be
+       * vertically centered. */
+      top: (-1em + (1 - @side-len)/2);
+      left: 0.4em;
+    }
+  }
 }
