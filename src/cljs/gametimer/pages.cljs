@@ -60,8 +60,7 @@
         (om/set-state! owner :submit-disabled? true)
         (let [res (<! (groups/create (.-value turn-seconds-input)))]
           (when (:success res)
-            (om/update! data :group-id (get-in res [:body :group-id]))
-            (navigate! "group")))
+            (navigate! (str "group/" (get-in res [:body :group-id])))))
         (om/set-state! owner :submit-disabled? false)
         (recur)))))
 
@@ -92,22 +91,10 @@
         (<! clicks)
         (om/update! data :username (.-value name-input))
         (om/update! data :group-id (.-value group-id-input))
-        (navigate! "group")
+        (navigate! (str "group/" (.-value group-id-input)))
         (recur)))))
 
 (defcomponent group [data owner]
-  (init-state [_]
-    (let [{:keys [chsk ch-recv send-fn state]}
-          (sente/make-channel-socket!
-           (str "/api/groups/" (:group-id data) "/")
-           {:type :auto :wrap-recv-evs? false})]
-      (go-loop []
-        (let [{:keys [id ?data]} (<! ch-recv)]
-          (case id
-            (println "Unhandled message type" id ?data)))
-        (recur)))
-    {:submit-disabled? false})
-
   (render [_]
     (page-template
      {:title (str "Group " (:group-id data))}
