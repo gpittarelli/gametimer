@@ -30,7 +30,6 @@
                              :source-map           true
                              :optimizations        :none
                              :source-map-timestamp true
-                             :preamble             ["react/react.min.js"]}}]
                 :figwheel-server server}]
     (fig-auto/autobuild* config)))
 
