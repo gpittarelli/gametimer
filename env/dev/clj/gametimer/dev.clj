@@ -29,7 +29,7 @@
                              :output-dir           "resources/public/js/out"
                              :source-map           true
                              :optimizations        :none
-                             :source-map-timestamp true
+                             :source-map-timestamp true}}]
                 :figwheel-server server}]
     (fig-auto/autobuild* config)))
 
