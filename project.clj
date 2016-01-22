@@ -27,7 +27,6 @@
                  [ring-transit "0.1.4"]
                  [http-kit "2.1.18"]
                  [com.taoensso/sente "1.7.0"]
-                 [ring-transit "0.1.4"]
                  [cljs-http "0.1.39"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
