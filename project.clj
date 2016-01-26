@@ -49,6 +49,17 @@
   :less {:source-paths ["src/less"]
          :target-path "resources/public/css"}
 
+  :figwheel
+  {:css-dirs ["resources/public/css"]
+   :builds
+   [{:id "dev"
+     :source-paths ["src/cljs" "env/dev/cljs"]
+     :compiler {:output-to            "resources/public/js/app.js"
+                :output-dir           "resources/public/js/out"
+                :source-map           true
+                :optimizations        :none
+                :source-map-timestamp true}}]}
+
   :profiles
   {:dev {:source-paths ["env/dev/clj"]
          :test-paths ["test/clj"]
@@ -64,10 +75,11 @@
 
          :plugins [[lein-figwheel "0.5.0-2"]]
 
-         :figwheel {:http-server-root "public"
-                    :server-port 3449
-                    :css-dirs ["resources/public/css"]
-                    :ring-handler gametimer.server/http-handler}
+         :figwheel
+         {:http-server-root "public"
+          :server-port 3449
+          :css-dirs ["resources/public/css"]
+          :ring-handler gametimer.server/http-handler}
 
          :env {:is-dev true
                :browser-caching {"text/javascript" 0
