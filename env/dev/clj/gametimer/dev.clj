@@ -31,7 +31,8 @@
                              :optimizations        :none
                              :source-map-timestamp true}}]
                 :figwheel-server server}]
-    (fig-auto/autobuild* config)))
+    ;;(fig-auto/autobuild* config)
+    ))
 
 (defn start-less []
   (future
