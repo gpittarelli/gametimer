@@ -7,9 +7,17 @@ Designed so that each player opens the app, one person creates a game,
 then everyone else joins through scanning a QR code, sharing a
 keyword, or other possible methods.
 
+## Using
+
+For development:
+
+    lein figwheel
+
+Then navigate to http://localhost:3449
+
 ## License
 
-Copyright © 2015 George Pittarelli
+Copyright © 2015-2016 George Pittarelli
 
 Distributed under the MIT License.
 
