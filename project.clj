@@ -5,6 +5,8 @@
             :url "http://opensource.org/licenses/mit-license.php"
             :distribution :repo}
 
+  :main gametimer.server
+
   :source-paths ["src/clj"]
 
   :test-paths ["test/clj"]
