@@ -7,13 +7,21 @@ Designed so that each player opens the app, one person creates a game,
 then everyone else joins through scanning a QR code, sharing a
 keyword, or other possible methods.
 
-## Using
+## Usage
 
 For development:
 
     lein figwheel
 
 Then navigate to http://localhost:3449
+
+For prod:
+
+    lein uberjar
+
+Then run with:
+
+    java -jar target/gametimer.jar
 
 ## License
 
