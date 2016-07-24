@@ -44,6 +44,7 @@
      (go-loop []
        (let [{:keys [event id ?data client-id ring-req]} (<! ch-recv)]
          (case id
+           :chsk/ws-ping nil
            (println "Unhandled message type" id ?data)))
        (recur))
 
